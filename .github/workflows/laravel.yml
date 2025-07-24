@@ -53,12 +53,9 @@ jobs:
 
       - name: Psr-4 checker
         run: composer dump-autoload --optimize --strict-psr
-
-      - name: Install Pint
-        run: composer global require laravel/pint
  
       - name: Run Pint 
-        run: pint --test app/Http/Controllers app/Models tests
+        run: ./vendor/bin/pint --test app/Http/Controllers app/Models tests
 
       - name: Prepare the application
         run: |
