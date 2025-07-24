@@ -5,7 +5,7 @@ on:
 
 jobs:
   laravel:
-    name: Laravel CI 
+    name: Laravel
     runs-on: ubuntu-latest
     env:
       DB_DATABASE: laravel
@@ -15,7 +15,7 @@ jobs:
 
     services:
       mysql:
-        image: mysql-server:8.0
+        image: mysql:8.0
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: password
@@ -27,7 +27,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
