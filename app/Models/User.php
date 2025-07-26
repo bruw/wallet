@@ -10,6 +10,7 @@ use App\Dto\Auth\LoginDto;
 use App\Dto\Auth\RegisterUserDto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -61,6 +62,14 @@ class User extends Authenticatable
     public function roles(): BelongsToMany
     {
         return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     * Gets the user's wallet.
+     */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
     }
 
     /**
