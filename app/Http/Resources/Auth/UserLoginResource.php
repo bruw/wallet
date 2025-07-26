@@ -4,8 +4,9 @@ namespace App\Http\Resources\Auth;
 
 use App\Http\Resources\User\UserBaseResource;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserLoginResource extends UserBaseResource
+class UserLoginResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +15,9 @@ class UserLoginResource extends UserBaseResource
      */
     public function toArray(Request $request): array
     {
-        $parent = parent::toArray($request);
-
-        return array_merge($parent, [
-            'token' => $this->createToken($this->name)->plainTextToken,
-        ]);
+        return [
+            'user' => UserBaseResource::make($this->user),
+            'token' => $this->token,
+        ];
     }
 }
