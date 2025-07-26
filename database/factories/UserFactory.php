@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -23,10 +25,14 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        $faker = \Faker\Factory::create('pt_BR');
+
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $faker->name(),
+            'email' => fake()->unique()->email(),
             'email_verified_at' => now(),
+            'cpf' => $faker->unique()->cpf(),
+            'phone' => $faker->unique()->cellPhoneNumber(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
         ];
@@ -40,5 +46,25 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Assign the admin role to the user after creation.
+     */
+    public function admin(): Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->roles()->syncWithoutDetaching(Role::admin());
+        });
+    }
+
+    /**
+     * Assign the consumer role to the user after creation.
+     */
+    public function consumer(): Factory
+    {
+        return $this->afterCreating(function (User $user) {
+            $user->roles()->syncWithoutDetaching(Role::consumer());
+        });
     }
 }

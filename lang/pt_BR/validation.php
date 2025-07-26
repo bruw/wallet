@@ -174,8 +174,10 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'cpf' => [
+            'format' => 'O formato do CPF informado é inválido.',
+            'sequential' => 'O CPF informado é uma sequência de dígitos repetidos.',
+            'invalid' => 'O CPF informado é inválido.',
         ],
     ],
 
