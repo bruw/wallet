@@ -29,6 +29,37 @@ class RegisterUserActionTest extends RegisterUserActionTestSetUp
         ]);
     }
 
+    public function test_should_create_a_wallet_for_the_new_user(): void
+    {
+        $user = (User::register($this->data))->user;
+        $wallet = $user->wallet;
+
+        $this->assertDatabaseHas('wallets', [
+            'id' => $wallet->id,
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function test_the_wallet_should_start_with_a_zero_balance(): void
+    {
+        $user = (User::register($this->data))->user;
+        $wallet = $user->wallet;
+
+        $this->assertDatabaseHas('wallets', [
+            'id' => $wallet->id,
+            'balance' => 0,
+        ]);
+    }
+
+    public function test_should_create_a_public_key_for_the_wallet(): void
+    {
+        $user = (User::register($this->data))->user;
+        $wallet = $user->wallet;
+
+        $this->assertDatabaseHas('wallet_keys', ['wallet_id' => $wallet->id]);
+        $this->assertNotNull($wallet->keys()->first()->public_key);
+    }
+
     public function test_should_throw_an_exception_when_an_internal_server_error_occurs(): void
     {
         $this->expectException(HttpJsonResponseException::class);
