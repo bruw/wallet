@@ -4,7 +4,9 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use App\Actions\Auth\Login\LoginAction;
 use App\Actions\Auth\Register\RegisterUserAction;
+use App\Dto\Auth\LoginDto;
 use App\Dto\Auth\RegisterUserDto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -64,8 +66,16 @@ class User extends Authenticatable
     /**
      * Registers a new user with the given data.
      */
-    public static function register(RegisterUserDto $data): User
+    public static function register(RegisterUserDto $data): LoginDto
     {
         return (new RegisterUserAction($data))->execute();
+    }
+
+    /**
+     * Authenticated the user in to the application.
+     */
+    public static function login(User $user, string $password): LoginDto
+    {
+        return (new LoginAction($user, $password))->execute();
     }
 }

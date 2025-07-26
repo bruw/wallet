@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Actions\Auth\Register;
 
+use App\Dto\Auth\LoginDto;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\User;
 use Exception;
@@ -10,17 +11,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RegisterUserActionTest extends RegisterUserActionTestSetUp
 {
-    public function test_should_return_an_instance_of_the_user_when_registration_is_successful(): void
+    public function test_should_return_an_instance_of_login_dto_when_registration_is_successful(): void
     {
-        $this->assertInstanceOf(User::class, User::register($this->data));
+        $this->assertInstanceOf(LoginDto::class, User::register($this->data));
     }
 
     public function test_should_create_a_new_user_in_the_database(): void
     {
-        $user = User::register($this->data);
-
+        $loginDto = User::register($this->data);
+        
         $this->assertDatabaseHas('users', [
-            'id' => $user->id,
+            'id' => $loginDto->user->id,
             'name' => $this->data->name,
             'email' => $this->data->email,
             'cpf' => $this->data->cpf,

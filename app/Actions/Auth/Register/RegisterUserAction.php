@@ -2,6 +2,7 @@
 
 namespace App\Actions\Auth\Register;
 
+use App\Dto\Auth\LoginDto;
 use App\Dto\Auth\RegisterUserDto;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\Role;
@@ -18,15 +19,20 @@ class RegisterUserAction
         private RegisterUserDto $data
     ) {}
 
-    public function execute(): User
+    public function execute(): LoginDto
     {
         try {
             return DB::transaction(function () {
                 $user = $this->register();
                 $this->syncRole($user);
+                $this->createToken($user);
                 $this->logSuccess($user);
 
-                return $user;
+                return new LoginDto(
+                    user: $user,
+                    token: $this->createToken($user)
+                );
+
             });
         } catch (Exception $e) {
             $this->handleException($e);
@@ -53,6 +59,14 @@ class RegisterUserAction
     private function syncRole(User $user): void
     {
         $user->roles()->attach(Role::consumer());
+    }
+
+    /**
+     * Generates a new token for the given user.
+     */
+    private function createToken(User $user): string
+    {
+        return $user->createToken('auth-token')->plainTextToken;
     }
 
     /**
