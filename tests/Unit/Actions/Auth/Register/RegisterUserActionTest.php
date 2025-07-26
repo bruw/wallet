@@ -19,7 +19,7 @@ class RegisterUserActionTest extends RegisterUserActionTestSetUp
     public function test_should_create_a_new_user_in_the_database(): void
     {
         $loginDto = User::register($this->data);
-        
+
         $this->assertDatabaseHas('users', [
             'id' => $loginDto->user->id,
             'name' => $this->data->name,

@@ -3,7 +3,6 @@
 namespace Tests\Feature\Auth\Login;
 
 use App\Http\Messages\FlashMessage;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Testing\Fluent\AssertableJson;
 
 class LoginAccessTest extends LoginTestSetUp
