@@ -5,7 +5,7 @@ namespace Tests\Feature\Auth\Register;
 use App\Http\Messages\FlashMessage;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-class RegisterUserAccessTest extends RegisterUserSetUpTest
+class RegisterUserAccessTest extends RegisterUserTestSetUp
 {
     public function test_should_an_unauthenticated_user_be_able_to_register(): void
     {

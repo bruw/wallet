@@ -7,7 +7,7 @@ use Database\Seeders\RoleSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class RegisterUserActionSetUpTest extends TestCase
+class RegisterUserActionTestSetUp extends TestCase
 {
     use RefreshDatabase;
 

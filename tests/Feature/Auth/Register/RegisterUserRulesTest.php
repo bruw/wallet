@@ -6,7 +6,7 @@ use App\Http\Messages\FlashMessage;
 use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\AssertableJson;
 
-class RegisterUserRulesTest extends RegisterUserSetUpTest
+class RegisterUserRulesTest extends RegisterUserTestSetUp
 {
     public function test_should_return_all_errors_when_the_required_fields_are_null_values(): void
     {

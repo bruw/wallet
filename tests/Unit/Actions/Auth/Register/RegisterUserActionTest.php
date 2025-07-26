@@ -8,7 +8,7 @@ use Exception;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
-class RegisterUserActionTest extends RegisterUserActionSetUpTest
+class RegisterUserActionTest extends RegisterUserActionTestSetUp
 {
     public function test_should_return_an_instance_of_the_user_when_registration_is_successful(): void
     {
