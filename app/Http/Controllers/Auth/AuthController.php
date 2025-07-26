@@ -42,4 +42,17 @@ class AuthController extends Controller
             Response::HTTP_OK
         );
     }
+
+    /**
+     * Log out the authenticated user by deleting their tokens.
+     */
+    public function logout(): JsonResponse
+    {
+        request()->user()->currentAccessToken()->delete();
+
+        return response()->json(
+            FlashMessage::success(trans('flash_messages.logout')),
+            Response::HTTP_OK
+        );
+    }
 }
