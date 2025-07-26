@@ -37,7 +37,7 @@ class AuthController extends Controller
         $loginDto = User::login($request->userByEmail(), $request->password());
 
         return response()->json(
-            FlashMessage::success(trans('auth.login'))
+            FlashMessage::success(trans('flash_messages.login'))
                 ->merge(['data' => new UserLoginResource($loginDto)]),
             Response::HTTP_OK
         );
