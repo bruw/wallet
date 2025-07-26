@@ -23,7 +23,7 @@ class RegisterUserActionSetUpTest extends TestCase
             name: $faker->name(),
             email: '7Yr4Q@example.com',
             cpf: $faker->cpf(),
-            cellPhone: $faker->cellPhoneNumber(),
+            phone: $faker->cellPhoneNumber(),
             password: 'password',
         );
     }

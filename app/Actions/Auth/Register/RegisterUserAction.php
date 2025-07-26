@@ -42,7 +42,7 @@ class RegisterUserAction
             'name' => $this->data->name,
             'email' => $this->data->email,
             'cpf' => $this->data->cpf,
-            'phone' => $this->data->cellPhone,
+            'phone' => $this->data->phone,
             'password' => Hash::make($this->data->password),
         ]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Exceptions\Validations;
+namespace App\Exceptions;
 
 use App\Http\Messages\FlashMessage;
 use Illuminate\Http\JsonResponse;
