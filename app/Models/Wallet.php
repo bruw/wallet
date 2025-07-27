@@ -30,4 +30,12 @@ class Wallet extends Model
     {
         return $this->hasMany(WalletKey::class);
     }
+
+    /**
+     * Get the deposits for the wallet.
+     */
+    public function deposits(): HasMany
+    {
+        return $this->hasMany(Deposit::class);
+    }
 }
