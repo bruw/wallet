@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\Wallet\WalletStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -13,7 +14,23 @@ class Wallet extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['balance'];
+    protected $fillable = ['balance', 'status'];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => WalletStatus::class,
+    ];
+
+    /**
+     * The model's default values for attributes.
+     */
+    protected $attributes = [
+        'status' => WalletStatus::OPERATIONAL,
+    ];
 
     /**
      * Get the user that owns the wallet.
