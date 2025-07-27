@@ -42,6 +42,7 @@ class DepositAction
         DepositValidator::for($this->user)
             ->userMustNotBeBlocked()
             ->amountMustBeNumeric($this->amount)
+            ->amountMustBeAtLeastMinimum($this->amount)
             ->amountMustBeAtLeastMinimum($this->amount);
     }
 
@@ -50,7 +51,8 @@ class DepositAction
      */
     private function deposit(): Deposit
     {
-        return Deposit::create(['amount' => $this->amount]);
+        return $this->user->wallet->deposits()
+            ->create(['amount' => $this->amount]);
     }
 
     /**

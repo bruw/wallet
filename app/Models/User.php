@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Actions\Auth\Login\LoginAction;
 use App\Actions\Auth\Register\RegisterUserAction;
+use App\Actions\Wallet\Deposit\DepositAction;
 use App\Dto\Auth\LoginDto;
 use App\Dto\Auth\RegisterUserDto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -86,5 +87,13 @@ class User extends Authenticatable
     public static function login(User $user, string $password): LoginDto
     {
         return (new LoginAction($user, $password))->execute();
+    }
+
+    /**
+     * Deposit the given amount into the user's wallet.
+     */
+    public function deposit(string $amount): Deposit
+    {
+        return (new DepositAction($this, $amount))->execute();
     }
 }

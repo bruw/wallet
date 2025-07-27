@@ -2,14 +2,13 @@
 
 namespace App\Actions\Validator;
 
+use App\Constants\Deposit\DepositConstants;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepositValidator
 {
-    private const MIN_AMOUNT = '5.00';
-
     public function __construct(
         private readonly User $user
     ) {}
@@ -56,10 +55,27 @@ class DepositValidator
      */
     public function amountMustBeAtLeastMinimum(string $amount): self
     {
-        $isGreaterThanMinimum = bccomp($amount, self::MIN_AMOUNT, 2) >= 0;
+        $minimum = DepositConstants::MIN_VALUE;
+        $isGreaterThanMinimum = bccomp($amount, $minimum, 2) >= 0;
 
         throw_unless($isGreaterThanMinimum, new HttpJsonResponseException(
-            trans('deposit_validator.amount.min', ['amount' => self::MIN_AMOUNT]),
+            trans('deposit_validator.amount.min', ['amount' => $minimum]),
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Validates if the given amount does not exceed the maximum allowed amount.
+     */
+    public function amountMustNotExceedMaximum(string $amount): self
+    {
+        $maximum = DepositConstants::MAX_VALUE;
+        $isLessThanOrEqualMaximum = bccomp($amount, $maximum, 2) <= 0;
+
+        throw_unless($isLessThanOrEqualMaximum, new HttpJsonResponseException(
+            trans('deposit_validator.amount.max', ['amount' => $maximum]),
             Response::HTTP_UNPROCESSABLE_ENTITY
         ));
 
