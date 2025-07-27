@@ -57,6 +57,10 @@ class User extends Authenticatable
         ];
     }
 
+    /*
+    ================= ** Relationships ** =========================================================
+    */
+
     /**
      * The roles that belong to the User
      */
@@ -72,6 +76,22 @@ class User extends Authenticatable
     {
         return $this->hasOne(Wallet::class);
     }
+
+    /*
+    ================= ** Helpers ** =========================================================
+    */
+
+    /**
+     * Determines if the user is a consumer.
+     */
+    public function isConsumer(): bool
+    {
+        return $this->roles()->where('name', 'consumer')->exists();
+    }
+
+    /*
+    ================= ** Actions ** =========================================================
+    */
 
     /**
      * Registers a new user with the given data.
