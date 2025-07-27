@@ -4,6 +4,7 @@ namespace Tests\Feature\Asserts;
 
 use App\Http\Messages\FlashMessage;
 use Illuminate\Testing\Fluent\AssertableJson;
+use Laravel\Sanctum\Sanctum;
 
 trait AccessAsserts
 {
@@ -36,8 +37,9 @@ trait AccessAsserts
         $method = strtolower($httpVerb) . 'Json';
 
         foreach ($users as $user) {
-            $response = $this->actingAs($user)
-                ->$method($route, $params)
+            Sanctum::actingAs($user);
+
+            $response = $this->$method($route, $params)
                 ->$assertHttpResponse();
 
             if (! empty($flashMessage)) {
@@ -60,8 +62,9 @@ trait AccessAsserts
         $method = strtolower($httpVerb) . 'Json';
 
         foreach ($users as $user) {
-            $this->actingAs($user)
-                ->$method($route, $params)
+            Sanctum::actingAs($user);
+
+            $this->$method($route, $params)
                 ->assertForbidden()
                 ->assertJson(
                     fn (AssertableJson $json) => $json->where('message.type', FlashMessage::ERROR)
