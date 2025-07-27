@@ -18,16 +18,16 @@ enum WalletStatus: string
     /**
      * Determine if the given status is 'operational'.
      */
-    public static function isOperational(string $status): bool
+    public function isOperational(): bool
     {
-        return $status === self::OPERATIONAL->value;
+        return $this->value === self::OPERATIONAL->value;
     }
 
     /**
      * Determine if the given status is 'blocked'.
      */
-    public static function isBlocked(string $status): bool
+    public function isBlocked(): bool
     {
-        return $status === self::BLOCKED->value;
+        return $this->value === self::BLOCKED->value;
     }
 }

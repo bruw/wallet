@@ -18,16 +18,16 @@ enum DepositStatus: string
     /**
      * Determine if the given status is 'completed'.
      */
-    public static function isCompleted(string $status): bool
+    public function isCompleted(): bool
     {
-        return $status === self::COMPLETED->value;
+        return $this->value === self::COMPLETED->value;
     }
 
     /**
      * Determine if the given status is 'canceled'.
      */
-    public static function isCanceled(string $status): bool
+    public function isCanceled(): bool
     {
-        return $status === self::CANCELED->value;
+        return $this->value === self::CANCELED->value;
     }
 }
