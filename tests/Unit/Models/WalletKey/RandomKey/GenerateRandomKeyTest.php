@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Models\WalletKey;
+namespace Tests\Unit\Models\WalletKey\RandomKey;
 
 use App\Models\WalletKey;
 use RuntimeException;
