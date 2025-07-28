@@ -3,6 +3,7 @@
 namespace App\Actions\Wallet\Deposit;
 
 use App\Actions\Validator\DepositValidator;
+use App\Actions\Validator\UserValidator;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\Deposit;
 use App\Models\User;
@@ -45,11 +46,12 @@ class DepositAction
      */
     private function validateAttributesBeforeAction(): void
     {
-        DepositValidator::for($this->wallet)
-            ->mustNotBeBlocked()
-            ->amountMustBeNumeric($this->amount)
-            ->amountMustBeAtLeastMinimum($this->amount)
-            ->amountMustNotExceedMaximum($this->amount);
+        UserValidator::for($this->user)->mustNotBeBlocked();
+
+        DepositValidator::for($this->amount)
+            ->amountMustBeNumeric()
+            ->amountMustBeAtLeastMinimum()
+            ->amountMustNotExceedMaximum();
     }
 
     /**
@@ -73,10 +75,10 @@ class DepositAction
     /**
      * Logs a success message when a deposit is made.
      */
-    private function logSuccess(User $user): void
+    private function logSuccess(): void
     {
         Log::info("The user {$this->user->name} made a deposit.", [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'amount' => $this->amount,
         ]);
     }
@@ -96,7 +98,7 @@ class DepositAction
         ]);
 
         throw new HttpJsonResponseException(
-            trans('actions.user.errors.deposit'),
+            trans('actions.deposit.errors.fail'),
             Response::HTTP_INTERNAL_SERVER_ERROR
         );
     }

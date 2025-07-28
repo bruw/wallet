@@ -18,5 +18,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::controller(WalletController::class)->group(function () {
         Route::get('/wallet', 'view')->name('api.wallets.view');
         Route::post('/wallet/deposit', 'deposit')->name('api.wallets.deposits.create');
+        Route::post('/wallet/transfer', 'transfer')->name('api.wallets.transfers.create');
     });
 });

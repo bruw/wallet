@@ -239,6 +239,8 @@ return [
         'blood_type' => 'tipo sanguíneo',
         'birth_date' => 'data de nascimento',
         'amount' => 'valor',
+        'public_key' => 'chave pública',
+        'target_key' => 'identificador da carteira de destino',
     ],
 
 ];

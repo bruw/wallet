@@ -2,22 +2,24 @@
 
 namespace App\Actions\Validator;
 
-use App\Constants\Deposit\DepositConstants;
+use App\Constants\Transfer\TransferConstants;
 use App\Exceptions\HttpJsonResponseException;
+use App\Models\Wallet;
 use Symfony\Component\HttpFoundation\Response;
 
-class DepositValidator
+class TransferValidator
 {
     public function __construct(
-        private readonly string $amount
+        private readonly string $amount,
+        private ?Wallet $sourceWallet = null,
     ) {}
 
     /**
      * Creates a new instance of DepositValidator.
      */
-    public static function for(string $amount): self
+    public static function for(string $amount, ?Wallet $sourceWallet = null): self
     {
-        return new self($amount);
+        return new self($amount, $sourceWallet);
     }
 
     /**
@@ -26,7 +28,7 @@ class DepositValidator
     public function amountMustBeNumeric(): self
     {
         throw_unless(is_numeric($this->amount), new HttpJsonResponseException(
-            trans('actions.deposit.errors.numeric'),
+            trans('actions.transfer.errors.numeric'),
             Response::HTTP_UNPROCESSABLE_ENTITY
         ));
 
@@ -39,11 +41,11 @@ class DepositValidator
      */
     public function amountMustBeAtLeastMinimum(): self
     {
-        $min = DepositConstants::MIN_VALUE;
+        $min = TransferConstants::MIN_VALUE;
         $isGreaterThanMinimum = bccomp($this->amount, $min, 2) >= 0;
 
         throw_unless($isGreaterThanMinimum, new HttpJsonResponseException(
-            trans('actions.deposit.errors.min', ['amount' => $min]),
+            trans('actions.transfer.errors.min', ['amount' => $min]),
             Response::HTTP_UNPROCESSABLE_ENTITY
         ));
 
@@ -55,11 +57,26 @@ class DepositValidator
      */
     public function amountMustNotExceedMaximum(): self
     {
-        $max = DepositConstants::MAX_VALUE;
+        $max = TransferConstants::MAX_VALUE;
         $isLessThanOrEqualMaximum = bccomp($this->amount, $max, 2) <= 0;
 
         throw_unless($isLessThanOrEqualMaximum, new HttpJsonResponseException(
-            trans('actions.deposit.errors.max', ['amount' => $max]),
+            trans('actions.transfer.errors.max', ['amount' => $max]),
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Validates if the source wallet has enough balance to make the transfer.
+     */
+    public function sourceWalletMustHaveEnoughBalance(): self
+    {
+        $hasBalance = bccomp($this->sourceWallet->balance, $this->amount, 2) >= 0;
+
+        throw_unless($hasBalance, new HttpJsonResponseException(
+            trans('actions.transfer.errors.not_enough_balance'),
             Response::HTTP_UNPROCESSABLE_ENTITY
         ));
 
