@@ -15,12 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class TransferAction
 {
+    private Wallet $sourceWallet;
+
     public function __construct(
         private readonly User $user,
         private readonly string $amount,
-        private Wallet $sourceWallet,
         private Wallet $targetWallet
-    ) {}
+    ) {
+        $this->sourceWallet = $this->user->wallet;
+    }
 
     public function execute(): Transfer
     {

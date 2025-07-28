@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Wallet;
 use App\Http\Controllers\Controller;
 use App\Http\Messages\FlashMessage;
 use App\Http\Requests\Wallet\Deposit\DepositRequest;
+use App\Http\Requests\Wallet\Transfer\TransferRequest;
 use App\Http\Resources\Wallet\WalletBaseResource;
 use App\Models\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,6 +33,24 @@ class WalletController extends Controller
         return response()->json(
             FlashMessage::success(trans_choice('flash_messages.success.registered.m', 1, [
                 'model' => trans_choice('model.deposit', 1),
+            ])),
+            Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * Transfer the given amount from the user's wallet to the target wallet.
+     */
+    public function transfer(TransferRequest $request): JsonResponse
+    {
+        $request->user()->transfer(
+            amount: $request->amount(),
+            targetWallet: $request->targetWallet(),
+        );
+
+        return response()->json(
+            FlashMessage::success(trans_choice('flash_messages.success.registered.m', 1, [
+                'model' => trans_choice('model.transfer', 1),
             ])),
             Response::HTTP_CREATED
         );
