@@ -44,7 +44,7 @@ class WalletController extends Controller
     public function transfer(TransferRequest $request): JsonResponse
     {
         $request->user()->transfer(
-            amount: $request->amount(),
+            amount: $request->amount,
             targetWallet: $request->targetWallet(),
         );
 

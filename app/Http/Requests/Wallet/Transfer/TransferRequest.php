@@ -2,11 +2,12 @@
 
 namespace App\Http\Requests\Wallet\Transfer;
 
+use App\Http\Requests\Base\ApiFormRequest;
 use App\Models\User;
 use App\Models\Wallet;
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\WalletKey;
 
-class TransferRequest extends FormRequest
+class TransferRequest extends ApiFormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,9 +22,11 @@ class TransferRequest extends FormRequest
      */
     public function targetWallet(): Wallet
     {
-        return Wallet::where([
-            'public_key' => $this->target_public_key,
+        $walletKey = WalletKey::where([
+            'public_key' => $this->target_key,
         ])->first();
+
+        return $walletKey->wallet;
     }
 
     /**
@@ -35,7 +38,7 @@ class TransferRequest extends FormRequest
     {
         return [
             'amount' => ['required', 'numeric'],
-            'target_public_key' => ['required', 'exists:wallet_keys,public_key'],
+            'target_key' => ['required', 'exists:wallet_keys,public_key'],
         ];
     }
 }
