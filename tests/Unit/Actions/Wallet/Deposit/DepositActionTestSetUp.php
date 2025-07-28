@@ -11,9 +11,9 @@ use Tests\TestCase;
 class DepositActionTestSetUp extends TestCase
 {
     use RefreshDatabase;
-    
+
     protected User $user;
-    
+
     protected function setUp(): void
     {
         parent::setUp();
