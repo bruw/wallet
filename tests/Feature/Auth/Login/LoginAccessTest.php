@@ -15,7 +15,7 @@ class LoginAccessTest extends LoginTestSetUp
         ])
             ->assertOk()
             ->assertJson(fn (AssertableJson $json) => $json->where('message.type', FlashMessage::SUCCESS)
-                ->where('message.text', trans('flash_messages.login'))
+                ->where('message.text', trans('flash_messages.success.login'))
                 ->where('data.user.id', $this->user->id)
                 ->where('data.user.name', $this->user->name)
                 ->where('data.user.email', fn (string $email) => str($email)->is($this->user->email))
