@@ -15,6 +15,10 @@ class WalletKey extends Model
      */
     protected $fillable = ['public_key'];
 
+    /*
+    ================= ** Relationships ** =========================================================
+    */
+
     /**
      * Get the wallet associated with the wallet key.
      */
@@ -22,6 +26,10 @@ class WalletKey extends Model
     {
         return $this->belongsTo(Wallet::class);
     }
+
+    /*
+    ================= ** Helpers ** =========================================================
+    */
 
     /**
      * Generates a random 64-character key.
@@ -32,7 +40,7 @@ class WalletKey extends Model
             'Maximum depth reached in random wallet key generation.'
         ));
 
-        $key = bin2hex(random_bytes(32));
+        $key = bin2hex(random_bytes(16));
         $isUnique = ! WalletKey::where('public_key', $key)->exists();
 
         return $isUnique ? $key : self::generateRandomKey($depth + 1);

@@ -8,11 +8,11 @@ use Tests\TestCase;
 
 class GenerateRandomKeyTest extends TestCase
 {
-    public function test_should_generate_a_random_key_with_64_chars_length(): void
+    public function test_should_generate_a_random_key_with_32_chars_length(): void
     {
         $key = WalletKey::generateRandomKey();
 
-        $this->assertEquals(64, strlen($key));
+        $this->assertEquals(32, strlen($key));
     }
 
     public function test_should_throw_an_exception_when_max_depth_is_reached(): void
