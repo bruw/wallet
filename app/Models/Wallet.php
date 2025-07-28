@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Enum\Wallet\WalletStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +13,7 @@ class Wallet extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['balance', 'status'];
+    protected $fillable = ['balance', 'blocked'];
 
     /**
      * The attributes that should be cast.
@@ -22,14 +21,14 @@ class Wallet extends Model
      * @var array
      */
     protected $casts = [
-        'status' => WalletStatus::class,
+        'blocked' => 'boolean',
     ];
 
     /**
      * The model's default values for attributes.
      */
     protected $attributes = [
-        'status' => WalletStatus::OPERATIONAL,
+        'blocked' => false,
     ];
 
     /**
@@ -54,5 +53,13 @@ class Wallet extends Model
     public function deposits(): HasMany
     {
         return $this->hasMany(Deposit::class);
+    }
+
+    /**
+     * Determines if the wallet is blocked.
+     */
+    public function isBlocked(): bool
+    {
+        return $this->blocked;
     }
 }

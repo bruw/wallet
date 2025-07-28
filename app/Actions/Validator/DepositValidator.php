@@ -4,31 +4,29 @@ namespace App\Actions\Validator;
 
 use App\Constants\Deposit\DepositConstants;
 use App\Exceptions\HttpJsonResponseException;
-use App\Models\User;
+use App\Models\Wallet;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepositValidator
 {
     public function __construct(
-        private readonly User $user
+        private readonly Wallet $wallet
     ) {}
 
     /**
      * Creates a new instance of DepositValidator.
      */
-    public static function for(User $user): self
+    public static function for(Wallet $wallet): self
     {
-        return new self($user);
+        return new self($wallet);
     }
 
     /**
-     * Validates if the user is not blocked.
+     * Validates if the wallet is not blocked.
      */
-    public function userMustNotBeBlocked(): self
+    public function mustNotBeBlocked(): self
     {
-        $isBlocked = $this->user->wallet->status->isBlocked();
-
-        throw_if($isBlocked, new HttpJsonResponseException(
+        throw_if($this->wallet->isBlocked(), new HttpJsonResponseException(
             trans('deposit_validator.wallet.blocked'),
             Response::HTTP_UNAUTHORIZED
         ));

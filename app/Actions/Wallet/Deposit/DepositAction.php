@@ -6,6 +6,7 @@ use App\Actions\Validator\DepositValidator;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\Deposit;
 use App\Models\User;
+use App\Models\Wallet;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -13,10 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DepositAction
 {
+    private Wallet $wallet;
+
     public function __construct(
         private readonly User $user,
         private readonly string $amount
-    ) {}
+    ) {
+        $this->wallet = $this->user->wallet;
+    }
 
     public function execute(): Deposit
     {
@@ -39,8 +44,8 @@ class DepositAction
      */
     private function validateAttributesBeforeAction(): void
     {
-        DepositValidator::for($this->user)
-            ->userMustNotBeBlocked()
+        DepositValidator::for($this->wallet)
+            ->mustNotBeBlocked()
             ->amountMustBeNumeric($this->amount)
             ->amountMustBeAtLeastMinimum($this->amount)
             ->amountMustBeAtLeastMinimum($this->amount);
@@ -51,7 +56,7 @@ class DepositAction
      */
     private function deposit(): Deposit
     {
-        return $this->user->wallet->deposits()
+        return $this->wallet->deposits()
             ->create(['amount' => $this->amount]);
     }
 
