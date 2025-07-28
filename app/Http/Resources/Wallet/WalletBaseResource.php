@@ -16,7 +16,7 @@ class WalletBaseResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'balance' => 'R$' . $this->balance,
+            'balance' => $this->balance,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
