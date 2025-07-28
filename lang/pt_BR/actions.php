@@ -9,7 +9,18 @@ return [
     ],
     'user' => [
         'errors' => [
-            'deposit' => 'Falha ao efetuar o depósito, tente novamente em alguns instantes.',
-        ]
-    ]
+            'wallet' => [
+                'blocked' => 'Ação não autorizada pois sua carteira está bloqueada.',
+            ]
+        ], 
+    ],
+    'deposit' => [
+        'errors' => [
+            'fail' => 'Falha ao efetuar o depósito, tente novamente em alguns instantes.',
+            'numeric' => 'O valor informado para deposito deve ser númerico.',
+            'min' => 'O valor mínimo para depositos é de R$ :amount',
+            'max' => 'O valor limite para depositos é de R$ :amount',
+        ],
+    ],
+
 ];

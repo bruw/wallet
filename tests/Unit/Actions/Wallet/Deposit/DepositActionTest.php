@@ -68,7 +68,7 @@ class DepositActionTest extends DepositActionTestSetUp
     {
         $this->expectException(HttpJsonResponseException::class);
         $this->expectExceptionCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->expectExceptionMessage(trans('deposit_validator.wallet.blocked'));
+        $this->expectExceptionMessage(trans('actions.user.errors.wallet.blocked'));
 
         $this->user->wallet->update(['blocked' => true]);
         $this->user->deposit(amount: '100');
@@ -78,7 +78,7 @@ class DepositActionTest extends DepositActionTestSetUp
     {
         $this->expectException(HttpJsonResponseException::class);
         $this->expectExceptionCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->expectExceptionMessage(trans('deposit_validator.amount.numeric'));
+        $this->expectExceptionMessage(trans('actions.deposit.errors.numeric'));
 
         $this->user->deposit(amount: '100a');
     }
@@ -89,7 +89,7 @@ class DepositActionTest extends DepositActionTestSetUp
 
         $this->expectException(HttpJsonResponseException::class);
         $this->expectExceptionCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->expectExceptionMessage(trans('deposit_validator.amount.min', [
+        $this->expectExceptionMessage(trans('actions.deposit.errors.min', [
             'amount' => $minimum,
         ]));
 
@@ -102,7 +102,7 @@ class DepositActionTest extends DepositActionTestSetUp
 
         $this->expectException(HttpJsonResponseException::class);
         $this->expectExceptionCode(Response::HTTP_UNPROCESSABLE_ENTITY);
-        $this->expectExceptionMessage(trans('deposit_validator.amount.max', [
+        $this->expectExceptionMessage(trans('actions.deposit.errors.max', [
             'amount' => $max,
         ]));
 
@@ -113,7 +113,7 @@ class DepositActionTest extends DepositActionTestSetUp
     {
         $this->expectException(HttpJsonResponseException::class);
         $this->expectExceptionCode(Response::HTTP_INTERNAL_SERVER_ERROR);
-        $this->expectExceptionMessage(trans('actions.user.errors.deposit'));
+        $this->expectExceptionMessage(trans('actions.deposit.errors.fail'));
 
         DB::shouldReceive('transaction')->once()
             ->andThrow(new Exception('Simulates a transaction error',

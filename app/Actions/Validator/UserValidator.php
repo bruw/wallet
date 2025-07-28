@@ -35,4 +35,17 @@ class UserValidator
 
         return $this;
     }
+
+    /**
+     * Validates if the wallet is not blocked.
+     */
+    public function mustNotBeBlocked(): self
+    {
+        throw_if($this->user->wallet->isBlocked(), new HttpJsonResponseException(
+            trans('actions.user.errors.wallet.blocked'),
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        ));
+
+        return $this;
+    }
 }
