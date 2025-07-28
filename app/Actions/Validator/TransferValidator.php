@@ -2,7 +2,7 @@
 
 namespace App\Actions\Validator;
 
-use App\Constants\Deposit\TransferConstants;
+use App\Constants\Transfer\TransferConstants;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\Wallet;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,7 +73,7 @@ class TransferValidator
      */
     public function sourceWalletMustHaveEnoughBalance(): self
     {
-        $hasBalance = $this->sourceWallet->balance >= $this->amount;
+        $hasBalance = bccomp($this->sourceWallet->balance, $this->amount, 2) >= 0;
 
         throw_unless($hasBalance, new HttpJsonResponseException(
             trans('actions.transfer.errors.not_enough_balance'),

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Constants\Deposit;
+namespace App\Constants\Transfer;
 
 class TransferConstants
 {

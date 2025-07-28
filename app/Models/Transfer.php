@@ -13,7 +13,12 @@ class Transfer extends Model
      *
      * @var list<string>
      */
-    protected $fillable = ['amount', 'status'];
+    protected $fillable = [
+        'source_wallet_id',
+        'target_wallet_id',
+        'amount', 
+        'status'
+    ];
 
     /**
      * The attributes that should be cast.
