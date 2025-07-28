@@ -28,7 +28,7 @@ class DepositValidator
     {
         throw_if($this->wallet->isBlocked(), new HttpJsonResponseException(
             trans('deposit_validator.wallet.blocked'),
-            Response::HTTP_UNAUTHORIZED
+            Response::HTTP_UNPROCESSABLE_ENTITY
         ));
 
         return $this;

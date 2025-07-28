@@ -48,7 +48,7 @@ class DepositAction
             ->mustNotBeBlocked()
             ->amountMustBeNumeric($this->amount)
             ->amountMustBeAtLeastMinimum($this->amount)
-            ->amountMustBeAtLeastMinimum($this->amount);
+            ->amountMustNotExceedMaximum($this->amount);
     }
 
     /**
