@@ -82,6 +82,14 @@ class User extends Authenticatable
     */
 
     /**
+     * Determines if the user is a administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('name', 'admin')->exists();
+    }
+
+    /**
      * Determines if the user is a consumer.
      */
     public function isConsumer(): bool
