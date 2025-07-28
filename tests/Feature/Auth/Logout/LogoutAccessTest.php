@@ -16,7 +16,7 @@ class LogoutAccessTest extends LogoutTestSetUp
         $this->deleteJson(route('api.auth.logout'))
             ->assertOk()
             ->assertJson(fn (AssertableJson $json) => $json->where('message.type', FlashMessage::SUCCESS)
-                ->where('message.text', trans('flash_messages.logout'))
+                ->where('message.text', trans('flash_messages.success.logout'))
             );
 
         $this->assertCount(0, $this->user->fresh()->tokens);

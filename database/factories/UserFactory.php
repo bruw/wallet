@@ -65,6 +65,7 @@ class UserFactory extends Factory
     {
         return $this->afterCreating(function (User $user) {
             $user->roles()->syncWithoutDetaching(Role::consumer());
+            WalletFactory::new()->for($user)->create();
         });
     }
 }

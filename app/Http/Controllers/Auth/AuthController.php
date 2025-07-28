@@ -37,7 +37,7 @@ class AuthController extends Controller
         $loginDto = User::login($request->userByEmail(), $request->password());
 
         return response()->json(
-            FlashMessage::success(trans('flash_messages.login'))
+            FlashMessage::success(trans('flash_messages.success.login'))
                 ->merge(['data' => new UserLoginResource($loginDto)]),
             Response::HTTP_OK
         );
@@ -51,7 +51,7 @@ class AuthController extends Controller
         request()->user()->currentAccessToken()->delete();
 
         return response()->json(
-            FlashMessage::success(trans('flash_messages.logout')),
+            FlashMessage::success(trans('flash_messages.success.logout')),
             Response::HTTP_OK
         );
     }

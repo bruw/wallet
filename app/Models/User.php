@@ -6,10 +6,12 @@ namespace App\Models;
 
 use App\Actions\Auth\Login\LoginAction;
 use App\Actions\Auth\Register\RegisterUserAction;
+use App\Actions\Wallet\Deposit\DepositAction;
 use App\Dto\Auth\LoginDto;
 use App\Dto\Auth\RegisterUserDto;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -55,6 +57,10 @@ class User extends Authenticatable
         ];
     }
 
+    /*
+    ================= ** Relationships ** =========================================================
+    */
+
     /**
      * The roles that belong to the User
      */
@@ -62,6 +68,38 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class);
     }
+
+    /**
+     * Gets the user's wallet.
+     */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class);
+    }
+
+    /*
+    ================= ** Helpers ** =========================================================
+    */
+
+    /**
+     * Determines if the user is a administrator.
+     */
+    public function isAdmin(): bool
+    {
+        return $this->roles()->where('name', 'admin')->exists();
+    }
+
+    /**
+     * Determines if the user is a consumer.
+     */
+    public function isConsumer(): bool
+    {
+        return $this->roles()->where('name', 'consumer')->exists();
+    }
+
+    /*
+    ================= ** Actions ** =========================================================
+    */
 
     /**
      * Registers a new user with the given data.
@@ -77,5 +115,13 @@ class User extends Authenticatable
     public static function login(User $user, string $password): LoginDto
     {
         return (new LoginAction($user, $password))->execute();
+    }
+
+    /**
+     * Deposit the given amount into the user's wallet.
+     */
+    public function deposit(string $amount): Deposit
+    {
+        return (new DepositAction($this, $amount))->execute();
     }
 }

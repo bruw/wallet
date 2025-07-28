@@ -7,6 +7,8 @@ use App\Dto\Auth\RegisterUserDto;
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\Role;
 use App\Models\User;
+use App\Models\Wallet;
+use App\Models\WalletKey;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -25,7 +27,7 @@ class RegisterUserAction
             return DB::transaction(function () {
                 $user = $this->register();
                 $this->syncRole($user);
-                $this->createToken($user);
+                $this->createWallet($user);
                 $this->logSuccess($user);
 
                 return new LoginDto(
@@ -67,6 +69,15 @@ class RegisterUserAction
     private function createToken(User $user): string
     {
         return $user->createToken('auth-token')->plainTextToken;
+    }
+
+    /**
+     * Creates a new wallet and a wallet public key for the user.
+     */
+    private function createWallet(User $user): void
+    {
+        $wallet = $user->wallet()->create();
+        $wallet->keys()->create(['public_key' => WalletKey::generateRandomKey()]);
     }
 
     /**
