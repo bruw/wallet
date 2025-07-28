@@ -29,6 +29,17 @@ class DepositActionTest extends DepositActionTestSetUp
         ]);
     }
 
+    public function test_should_increment_the_wallet_balance(): void
+    {
+        $this->assertEquals('0.00', $this->user->wallet->balance);
+
+        $this->user->deposit(amount: '10');
+        $this->assertEquals('10.00', $this->user->wallet->balance);
+
+        $this->user->deposit(amount: '1000');
+        $this->assertEquals('1010.00', $this->user->wallet->balance);
+    }
+
     public function test_should_possible_to_deposit_the_minimum_amount(): void
     {
         $deposit = $this->user->deposit(amount: DepositConstants::MIN_VALUE);

@@ -30,6 +30,7 @@ class DepositAction
         try {
             return DB::transaction(function () {
                 $deposit = $this->deposit();
+                $this->incrementWalletBalance($deposit);
                 $this->logSuccess($this->user);
 
                 return $deposit;
@@ -58,6 +59,15 @@ class DepositAction
     {
         return $this->wallet->deposits()
             ->create(['amount' => $this->amount]);
+    }
+
+    /**
+     * Increments the wallet balance by the given deposit amount.
+     */
+    private function incrementWalletBalance(Deposit $deposit): void
+    {
+        $this->wallet->balance += $deposit->amount;
+        $this->wallet->save();
     }
 
     /**
