@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Wallet\Transfers;
 
-use App\Models\Transfer;
 use Database\Factories\UserFactory;
 
 class TransferAccessTest extends TransferTestSetUp

@@ -16,8 +16,8 @@ class Transfer extends Model
     protected $fillable = [
         'source_wallet_id',
         'target_wallet_id',
-        'amount', 
-        'status'
+        'amount',
+        'status',
     ];
 
     /**
