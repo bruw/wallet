@@ -75,10 +75,10 @@ class DepositAction
     /**
      * Logs a success message when a deposit is made.
      */
-    private function logSuccess(User $user): void
+    private function logSuccess(): void
     {
         Log::info("The user {$this->user->name} made a deposit.", [
-            'user_id' => $user->id,
+            'user_id' => $this->user->id,
             'amount' => $this->amount,
         ]);
     }

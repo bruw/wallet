@@ -11,8 +11,8 @@ return [
         'errors' => [
             'wallet' => [
                 'blocked' => 'Ação não autorizada pois sua carteira está bloqueada.',
-            ]
-        ], 
+            ],
+        ],
     ],
     'deposit' => [
         'errors' => [
@@ -20,6 +20,15 @@ return [
             'numeric' => 'O valor informado para deposito deve ser númerico.',
             'min' => 'O valor mínimo para depositos é de R$ :amount',
             'max' => 'O valor limite para depositos é de R$ :amount',
+        ],
+    ],
+    'transfer' => [
+        'errors' => [
+            'fail' => 'Falha ao efetuar a transferência, tente novamente em alguns instantes.',
+            'numeric' => 'O valor informado para deposito deve ser númerico.',
+            'min' => 'O valor mínimo para depositos é de R$ :amount',
+            'max' => 'O valor limite para depositos é de R$ :amount',
+            'not_enough_balance' => 'Carteira sem saldo suficiente para efetuar a transferência.',
         ],
     ],
 

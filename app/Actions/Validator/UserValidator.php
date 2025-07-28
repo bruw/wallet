@@ -4,6 +4,7 @@ namespace App\Actions\Validator;
 
 use App\Exceptions\HttpJsonResponseException;
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -44,6 +45,21 @@ class UserValidator
         throw_if($this->user->wallet->isBlocked(), new HttpJsonResponseException(
             trans('actions.user.errors.wallet.blocked'),
             Response::HTTP_UNPROCESSABLE_ENTITY
+        ));
+
+        return $this;
+    }
+
+    /**
+     * Validates if the user owns the given wallet.
+     */
+    public function mustOwnWallet(Wallet $wallet): self
+    {
+        $isOwner = $this->user->is($wallet->user);
+
+        throw_unless($isOwner, new HttpJsonResponseException(
+            trans('auth.password'),
+            Response::HTTP_UNAUTHORIZED
         ));
 
         return $this;
