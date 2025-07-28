@@ -2,13 +2,26 @@
 
 namespace App\Http\Controllers\Wallet;
 
+use App\Http\Controllers\Controller;
 use App\Http\Messages\FlashMessage;
 use App\Http\Requests\Wallet\Deposit\DepositRequest;
+use App\Http\Resources\Wallet\WalletBaseResource;
+use App\Models\User;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class WalletController
+class WalletController extends Controller
 {
+    /**
+     * Gets the user's wallet.
+     */
+    public function view()
+    {
+        $this->authorize('accessAsConsumer', User::class);
+
+        return WalletBaseResource::make(request()->user()->wallet);
+    }
+
     /**
      * Deposit the given amount into the user's wallet.
      */

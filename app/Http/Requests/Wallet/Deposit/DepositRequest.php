@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Wallet\Deposit;
 
 use App\Http\Requests\Base\ApiFormRequest;
+use App\Models\User;
 
 class DepositRequest extends ApiFormRequest
 {
@@ -11,7 +12,7 @@ class DepositRequest extends ApiFormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()->isConsumer();
+        return $this->user()->can('accessAsConsumer', User::class);
     }
 
     /**

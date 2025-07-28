@@ -16,6 +16,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/logout', 'logout')->name('api.auth.logout');
     });
     Route::controller(WalletController::class)->group(function () {
-        Route::post('/wallets/deposits', 'deposit')->name('api.wallets.deposits.create');
+        Route::get('/wallet', 'view')->name('api.wallets.view');
+        Route::post('/wallet/deposit', 'deposit')->name('api.wallets.deposits.create');
     });
 });
