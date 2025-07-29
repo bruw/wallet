@@ -25,9 +25,9 @@ return [
     'transfer' => [
         'errors' => [
             'fail' => 'Falha ao efetuar a transferência, tente novamente em alguns instantes.',
-            'numeric' => 'O valor informado para deposito deve ser númerico.',
-            'min' => 'O valor mínimo para depositos é de R$ :amount',
-            'max' => 'O valor limite para depositos é de R$ :amount',
+            'numeric' => 'O valor informado para transferência deve ser númerico.',
+            'min' => 'O valor mínimo para transferência é de R$ :amount',
+            'max' => 'O valor limite para transferência é de R$ :amount',
             'not_enough_balance' => 'Carteira não possui saldo suficiente para efetuar a transferência.',
         ],
     ],
