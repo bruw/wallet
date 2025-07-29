@@ -34,24 +34,30 @@ class TransferActionTest extends TransferActionTestSetUp
 
     public function test_should_increment_the_target_wallet_balance(): void
     {
-        $this->assertEquals('100.00', $this->targetWallet->balance);
+        $transfers = ['50', '20', '10'];
+        $balance = $this->targetWallet->balance;
 
-        $this->sourceUser->transfer('50', $this->targetWallet);
-        $this->assertEquals('150.00', $this->targetWallet->balance);
+        foreach ($transfers as $transfer) {
+            $this->sourceUser->transfer($transfer, $this->targetWallet);
+            $this->targetWallet->refresh();
 
-        $this->sourceUser->transfer('10', $this->targetWallet);
-        $this->assertEquals('160.00', $this->targetWallet->balance);
+            $expectedBalance = $balance += $transfer;
+            $this->assertEquals($expectedBalance, $this->targetWallet->balance);
+        }
     }
 
     public function test_should_decrement_the_source_wallet_balance(): void
     {
-        $this->assertEquals('100.00', $this->sourceWallet->balance);
+        $transfers = ['50', '20', '10'];
+        $balance = $this->sourceWallet->balance;
 
-        $this->sourceUser->transfer('50', $this->targetWallet);
-        $this->assertEquals('50.00', $this->sourceWallet->balance);
+        foreach ($transfers as $transfer) {
+            $this->sourceUser->transfer($transfer, $this->targetWallet);
+            $this->sourceWallet->refresh();
 
-        $this->sourceUser->transfer('49', $this->targetWallet);
-        $this->assertEquals('1.00', $this->sourceWallet->balance);
+            $expectedBalance = $balance -= $transfer;
+            $this->assertEquals($expectedBalance, $this->sourceWallet->balance);
+        }
     }
 
     public function test_should_possible_to_transfer_the_minimum_amount(): void

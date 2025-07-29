@@ -21,27 +21,35 @@ class TransferAction
         private readonly User $user,
         private readonly string $amount,
         private Wallet $targetWallet
-    ) {
-        $this->sourceWallet = $this->user->wallet;
-    }
+    ) {}
 
     public function execute(): Transfer
     {
-        $this->validateAttributesBeforeAction();
-
         try {
             return DB::transaction(function () {
-                $transfer = $this->createTransfer();
+                $this->initializeAttributesBeforeAction();
+                $this->validateAttributesBeforeAction();
 
+                $transfer = $this->createTransfer();
                 $this->decrementSourceWalletBalance($transfer);
                 $this->incrementTargetWalletBalance($transfer);
                 $this->logSuccess();
 
                 return $transfer;
             });
+        } catch (HttpJsonResponseException $e) {
+            throw $e;
         } catch (Exception $e) {
             $this->handleException($e);
         }
+    }
+
+    /**
+     * Initializes the source wallet before the action is executed.
+     */
+    private function initializeAttributesBeforeAction(): void
+    {
+        $this->sourceWallet = $this->user->wallet()->lockForUpdate()->firstOrFail();
     }
 
     /**
