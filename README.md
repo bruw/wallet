@@ -10,7 +10,7 @@
 ## Enunciado do Desafio
 https://drive.google.com/drive/folders/1eHoqcdL7R7Ma7Wa4hAIJ2mkGQ8WxGC-n?hl=pt-br
 
-## Projeto
+## Projeto (Kanban)
 https://github.com/users/bruw/projects/10
 
 ## DB Diagram
