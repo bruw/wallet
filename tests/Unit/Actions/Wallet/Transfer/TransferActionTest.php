@@ -34,7 +34,7 @@ class TransferActionTest extends TransferActionTestSetUp
 
     public function test_should_increment_the_target_wallet_balance(): void
     {
-        $transfers = ["50", "20", "10"];
+        $transfers = ['50', '20', '10'];
         $balance = $this->targetWallet->balance;
 
         foreach ($transfers as $transfer) {
@@ -48,7 +48,7 @@ class TransferActionTest extends TransferActionTestSetUp
 
     public function test_should_decrement_the_source_wallet_balance(): void
     {
-        $transfers = ["50", "20", "10"];
+        $transfers = ['50', '20', '10'];
         $balance = $this->sourceWallet->balance;
 
         foreach ($transfers as $transfer) {

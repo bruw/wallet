@@ -3,7 +3,6 @@
 namespace Tests\Unit\Constants\Transfer;
 
 use App\Constants\Transfer\TransferConstants;
-use App\Models\Transfer;
 use Tests\TestCase;
 
 class TransferConstantsTest extends TestCase
